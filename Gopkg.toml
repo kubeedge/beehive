@@ -35,7 +35,11 @@
 
 [[constraint]]
   name = "github.com/go-chassis/go-archaius"
-  version = "v0.1"
+  version = "v0.16"
+
+[[constraint]]
+  name = "github.com/go-chassis/go-chassis-config"
+  version = "v0.7.0"
 
 [[constraint]]
   name = "github.com/go-chassis/paas-lager"
