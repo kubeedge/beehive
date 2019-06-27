@@ -14,58 +14,17 @@ const (
 	UpdateOperation        = "update"
 	ResponseOperation      = "response"
 	ResponseErrorOperation = "error"
-
-	ResourceTypePod        = "pod"
-	ResourceTypeConfigmap  = "configmap"
-	ResourceTypeSecret     = "secret"
-	ResourceTypeNode       = "node"
-	ResourceTypePodlist    = "podlist"
-	ResourceTypePodStatus  = "podstatus"
-	ResourceTypeNodeStatus = "nodestatus"
 )
 
-// Message struct
-type Message struct {
-	Header  MessageHeader `json:"header"`
-	Router  MessageRoute  `json:"route, omitempty"`
-	Content interface{}   `json:"content"`
-}
-
-//MessageRoute contains structure of message
-type MessageRoute struct {
-	// where the message come from
-	Source string `json:"source,omitempty"`
-	// where the message will broadcasted to
-	Group string `json:"group, omitempty"`
-
-	// what's the operation on resource
-	Operation string `json:"operation,omitempty"`
-	// what's the resource want to operate
-	Resource string `json:"resource,omitempty"`
-}
-
-//MessageHeader defines message header details
-type MessageHeader struct {
-	// the message uuid
-	ID string `json:"msg_id"`
-	// the response message parentid must be same with message received
-	// please use NewRespByMessage to new response message
-	ParentID string `json:"parent_msg_id, omitempty"`
-	// the time of creating
-	Timestamp int64 `json:"timestamp"`
-	// the flag will be set in sendsync
-	Sync bool `json:"sync, omitempty"`
-}
-
 //BuildRouter sets route and resource operation in message
-func (msg *Message) BuildRouter(source, group, res, opr string) *Message {
+func (msg *Message) BuildRouter(source, group string, res *Resource, opr string) *Message {
 	msg.SetRoute(source, group)
 	msg.SetResourceOperation(res, opr)
 	return msg
 }
 
 //SetResourceOperation sets router resource and operation in message
-func (msg *Message) SetResourceOperation(res, opr string) *Message {
+func (msg *Message) SetResourceOperation(res *Resource, opr string) *Message {
 	msg.Router.Resource = res
 	msg.Router.Operation = opr
 	return msg
@@ -84,7 +43,7 @@ func (msg *Message) IsSync() bool {
 }
 
 //GetResource returns message route resource
-func (msg *Message) GetResource() string {
+func (msg *Message) GetResource() *Resource {
 	return msg.Router.Resource
 }
 
@@ -118,11 +77,6 @@ func (msg *Message) GetTimestamp() int64 {
 	return msg.Header.Timestamp
 }
 
-//GetContent returns message content
-func (msg *Message) GetContent() interface{} {
-	return msg.Content
-}
-
 //UpdateID returns message object updating its ID
 func (msg *Message) UpdateID() *Message {
 	msg.Header.ID = uuid.NewV4().String()
@@ -138,7 +92,7 @@ func (msg *Message) BuildHeader(ID, parentID string, timestamp int64) *Message {
 }
 
 //FillBody fills message  content that you want to send
-func (msg *Message) FillBody(content interface{}) *Message {
+func (msg *Message) FillBody(content []byte) *Message {
 	msg.Content = content
 	return msg
 }
@@ -169,14 +123,14 @@ func (msg *Message) Clone(message *Message) *Message {
 }
 
 // NewRespByMessage returns a new response message by a message received
-func (msg *Message) NewRespByMessage(message *Message, content interface{}) *Message {
+func (msg *Message) NewRespByMessage(message *Message, content []byte) *Message {
 	return NewMessage(message.GetID()).SetRoute(message.GetSource(), message.GetGroup()).
 		SetResourceOperation(message.GetResource(), ResponseOperation).
 		FillBody(content)
 }
 
 // NewErrorMessage returns a new error message by a message received
-func NewErrorMessage(message *Message, errContent string) *Message {
+func NewErrorMessage(message *Message, errContent []byte) *Message {
 	return NewMessage(message.Header.ParentID).
 		SetResourceOperation(message.Router.Resource, ResponseErrorOperation).
 		FillBody(errContent)

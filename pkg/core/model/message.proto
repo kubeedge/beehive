@@ -1,0 +1,26 @@
+syntax = "proto3";
+package model;
+
+import "google/protobuf/any.proto";
+
+message MessageHeader {
+    string ID = 1;
+    string ParentID = 2;
+    int64 Timestamp = 3;
+    bool Sync = 4;
+}
+message MessageRoute {
+    string Source = 1;
+    string Group = 2;
+    string Operation = 3;
+    Resource Resource = 4;
+}
+message Resource {
+    string ResourceType = 1;
+    bytes Data = 2;
+}
+message Message {
+    MessageHeader Header = 1;
+    MessageRoute Router = 2;
+    bytes Content = 3;
+}
