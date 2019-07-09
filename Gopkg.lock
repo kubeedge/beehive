@@ -58,12 +58,32 @@
   revision = "3d418c478b2daf4684a2ddbb5c88aa7ec21cb3f2"
 
 [[projects]]
+  digest = "1:4107f4e81e8fd2e80386b4ed56b05e3a1fe26ecc7275fe80bb9c3a80a7344ff4"
+  name = "github.com/gogo/protobuf"
+  packages = [
+    "proto",
+    "sortkeys",
+    "types",
+  ]
+  pruneopts = "UT"
+  revision = "ba06b47c162d49f2af050fb4c75bcbc86a159d5c"
+  version = "v1.2.1"
+
+[[projects]]
   digest = "1:7b5c6e2eeaa9ae5907c391a91c132abfd5c9e8a784a341b5625e750c67e6825d"
   name = "github.com/gorilla/websocket"
   packages = ["."]
   pruneopts = "UT"
   revision = "66b9c49e59c6c48f0ffce28c2d8b8a5678502c6d"
   version = "v1.4.0"
+
+[[projects]]
+  digest = "1:cf31692c14422fa27c83a05292eb5cbe0fb2775972e8f1f8446a71549bd8980b"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
+  version = "v0.8.1"
 
 [[projects]]
   digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
@@ -110,6 +130,9 @@
     "github.com/go-chassis/paas-lager/rotate",
     "github.com/go-chassis/paas-lager/third_party/forked/cloudfoundry/lager",
     "github.com/go-mesh/openlogging",
+    "github.com/gogo/protobuf/proto",
+    "github.com/gogo/protobuf/types",
+    "github.com/pkg/errors",
     "github.com/satori/go.uuid",
     "gopkg.in/yaml.v2",
   ]
