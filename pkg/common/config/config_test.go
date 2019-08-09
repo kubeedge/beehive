@@ -23,10 +23,6 @@ func TestInitializeConfig(t *testing.T) {
 		t.Error(err)
 	}
 
-	loggerLevel := config.GetString("loggerLevel", "ERROR")
-	if loggerLevel != "DEBUG" {
-		t.Error("config info incorrect")
-	}
 	isEnabled := isModuleEnabled("eventbus")
 	if !isEnabled {
 		t.Error("Error to get modules enabled information")
@@ -47,21 +43,11 @@ func isModuleEnabled(m string) bool {
 }
 
 func prepareConfigFile(dir string) error {
-	//Write log config file
-	logConfigFile := dir + "/logging.yaml"
-	logConfigContent := "loggerLevel: \"DEBUG\"\n" +
-		"enableRsyslog: false\n" +
-		"logFormatText: true\n" +
-		"writers: [stdout]"
-	err := writeConfigFile(logConfigContent, logConfigFile)
-	if err != nil {
-		return err
-	}
 	//Write module config file
 	moduleConfigFile := dir + "/modules.yaml"
 	moduleConfigContent := "modules:\n" +
 		"  enabled: [eventbus, servicebus]"
-	err = writeConfigFile(moduleConfigContent, moduleConfigFile)
+	err := writeConfigFile(moduleConfigContent, moduleConfigFile)
 	if err != nil {
 		return err
 	}
@@ -90,7 +76,6 @@ func addSources(location string) error {
 }
 
 func writeConfigFile(content string, fileName string) error {
-	//Prepare log config file
 	//Delete it if already exists
 	if isFileExists(fileName) {
 		err := os.Remove(fileName)

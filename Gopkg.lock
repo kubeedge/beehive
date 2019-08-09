@@ -37,19 +37,6 @@
   version = "v0.7.0"
 
 [[projects]]
-  digest = "1:b55965967271fcb98224d53d47a8b5fd82a3f50c57ac483c42b2208300c96955"
-  name = "github.com/go-chassis/paas-lager"
-  packages = [
-    ".",
-    "rotate",
-    "third_party/forked/cloudfoundry/lager",
-    "third_party/forked/cloudfoundry/lager/color",
-  ]
-  pruneopts = "UT"
-  revision = "005283cca84c31e4ee549c6fd280bbd8432503f0"
-  version = "v1.0.1"
-
-[[projects]]
   branch = "master"
   digest = "1:44b6504c0470b6ef1b247d6791982478191aec4e05c95ee61a2bb14b6bded642"
   name = "github.com/go-mesh/openlogging"
@@ -97,6 +84,14 @@
   revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
   version = "v2.2.2"
 
+[[projects]]
+  digest = "1:ccb9be4c583b6ec848eb98aa395a4e8c8f8ad9ebb823642c0dd1c1c45939a5bb"
+  name = "k8s.io/klog"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "3ca30a56d8a775276f9cdae009ba326fdc05af7f"
+  version = "v0.4.0"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
@@ -106,12 +101,9 @@
     "github.com/go-chassis/go-archaius/sources/commandline-source",
     "github.com/go-chassis/go-archaius/sources/enviromentvariable-source",
     "github.com/go-chassis/go-archaius/sources/memory-source",
-    "github.com/go-chassis/paas-lager",
-    "github.com/go-chassis/paas-lager/rotate",
-    "github.com/go-chassis/paas-lager/third_party/forked/cloudfoundry/lager",
-    "github.com/go-mesh/openlogging",
     "github.com/satori/go.uuid",
     "gopkg.in/yaml.v2",
+    "k8s.io/klog",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
