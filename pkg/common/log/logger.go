@@ -33,7 +33,7 @@ func InitializeLogger() {
 			LogFormatText: true,
 			Writers:       []string{"stdout"},
 		}
-
+		rotateConfig := &rotate.RotateConfig{}
 		filename := strings.TrimSuffix(GetConfigDir(), "/") + LOGCONFIGPATH
 
 		//fmt.Println("logging.yaml's path is " + filename)
@@ -44,6 +44,10 @@ func InitializeLogger() {
 				fmt.Printf("Got error when reading yaml config file:%v\n", err)
 			}
 			err = yaml.Unmarshal(content, logConfig)
+			if err != nil {
+				fmt.Printf("Got error when reading yaml config file:%v\n", err)
+			}
+			err = yaml.Unmarshal(content, rotateConfig)
 			if err != nil {
 				fmt.Printf("Got error when reading yaml config file:%v\n", err)
 			}
@@ -63,7 +67,7 @@ func InitializeLogger() {
 		writers := logConfig.Writers
 		for _, value := range writers {
 			if value == "file" {
-				rotate.RunLogRotate(logConfig.LoggerFile, &rotate.RotateConfig{}, LOGGER)
+				rotate.RunLogRotate(logConfig.LoggerFile, rotateConfig, LOGGER)
 				break
 			}
 		}
