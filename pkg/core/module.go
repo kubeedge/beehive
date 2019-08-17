@@ -9,7 +9,8 @@ import (
 )
 
 const (
-	tryReadKeyTimes = 5
+	tryReadKeyTimes   = 5
+	modulesEnabledKey = "modules.enabled"
 )
 
 // Module interface
@@ -31,7 +32,7 @@ func init() {
 	disabledModules = make(map[string]Module)
 	config.AddConfigChangeCallback(moduleChangeCallback{})
 	eventListener := config.EventListener{Name: "eventListener1"}
-	config.CONFIG.RegisterListener(eventListener, "modules.enabled")
+	config.CONFIG.RegisterListener(eventListener, modulesEnabledKey)
 }
 
 // Register register module
@@ -48,7 +49,7 @@ func Register(m Module) {
 
 //
 func isModuleEnabled(m string) bool {
-	modules := config.CONFIG.GetConfigurationByKey("modules.enabled")
+	modules := config.CONFIG.GetConfigurationByKey(modulesEnabledKey)
 	if modules != nil {
 
 		for _, value := range modules.([]interface{}) {
@@ -76,7 +77,7 @@ func (cb moduleChangeCallback) Callback(k string, v interface{}) {
 		return nil
 	}
 
-	if k == "modules.enabled" {
+	if k == modulesEnabledKey {
 		currentModules, ok := v.([]interface{})
 		if !ok {
 			log.LOGGER.Infof("retry read key: %+v", k)
