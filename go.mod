@@ -5,8 +5,6 @@ go 1.12
 require (
 	github.com/go-chassis/go-archaius v0.20.0
 	github.com/go-chassis/go-chassis v1.7.1 // indirect
-	github.com/go-chassis/paas-lager v1.0.2-0.20190328010332-cf506050ddb2
-	github.com/go-mesh/openlogging v1.0.1-0.20181205082104-3d418c478b2d
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
 	github.com/kubeedge/beehive v0.0.0-20190809132808-14b9c1bfd040
 	github.com/onsi/ginkgo v1.10.1 // indirect
@@ -19,4 +17,5 @@ require (
 	golang.org/x/sys v0.0.0-20190318195719-6c81ef8f67ca // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/yaml.v2 v2.2.2
+	k8s.io/klog v1.0.0
 )

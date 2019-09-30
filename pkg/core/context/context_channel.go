@@ -61,7 +61,7 @@ func (ctx *ChannelContext) Send(module string, message model.Message) {
 	// TODO: need reconstruction
 	defer func() {
 		if exception := recover(); exception != nil {
-			klog.Warningf("Send: recover, exception: %+v", exception)
+			klog.Warningf("Recover when send message, exception: %+v", exception)
 		}
 	}()
 
@@ -69,7 +69,7 @@ func (ctx *ChannelContext) Send(module string, message model.Message) {
 		channel <- message
 		return
 	}
-	klog.Warningf("Send: bad module name :%s, do nothing", module)
+	klog.Warningf("Get bad module name :%s when send message, do nothing", module)
 }
 
 // Receive msg from channel of module
@@ -79,7 +79,7 @@ func (ctx *ChannelContext) Receive(module string) (model.Message, error) {
 		return content, nil
 	}
 
-	klog.Warningf("Receive: failed to get channel for module:%s", module)
+	klog.Warningf("Failed to get channel for module:%s when receive message", module)
 	return model.Message{}, fmt.Errorf("failed to get channel for module(%s)", module)
 }
 
@@ -93,7 +93,7 @@ func (ctx *ChannelContext) SendSync(module string, message model.Message, timeou
 	// TODO: need reconstruction
 	defer func() {
 		if exception := recover(); exception != nil {
-			klog.Warningf("SendSync: recover, exception: %+v", exception)
+			klog.Warningf("Recover when sendsync message, exception: %+v", exception)
 		}
 	}()
 
@@ -155,7 +155,7 @@ func (ctx *ChannelContext) SendResp(message model.Message) {
 		return
 	}
 
-	klog.Warningf("SendResp: bad anonName:%s, do nothing", anonName)
+	klog.Warningf("Get bad anonName:%s when sendresp message, do nothing", anonName)
 }
 
 // Send2Group send msg to modules. Todo: do not stuck
@@ -164,7 +164,7 @@ func (ctx *ChannelContext) Send2Group(moduleType string, message model.Message) 
 	// TODO: need reconstruction
 	defer func() {
 		if exception := recover(); exception != nil {
-			klog.Warningf("Send2Group: recover, exception: %+v", exception)
+			klog.Warningf("Recover when send2group message, exception: %+v", exception)
 		}
 	}()
 
@@ -172,7 +172,7 @@ func (ctx *ChannelContext) Send2Group(moduleType string, message model.Message) 
 		select {
 		case ch <- message:
 		default:
-			klog.Warningf("Send2Group: the message channel is full, message: %+v", message)
+			klog.Warningf("the message channel is full, message: %+v", message)
 			select {
 			case ch <- message:
 			}
@@ -184,7 +184,7 @@ func (ctx *ChannelContext) Send2Group(moduleType string, message model.Message) 
 		}
 		return
 	}
-	klog.Warningf("Send2Group: bad module type:%s, do nothing", moduleType)
+	klog.Warningf("Get bad module type:%s when send2group message, do nothing", moduleType)
 }
 
 // Send2GroupSync : broadcast the message to echo module channel, the module send response back anon channel
@@ -194,7 +194,7 @@ func (ctx *ChannelContext) Send2GroupSync(moduleType string, message model.Messa
 	// TODO: need reconstruction
 	defer func() {
 		if exception := recover(); exception != nil {
-			klog.Warningf("Send2GroupSync: recover, exception: %+v", exception)
+			klog.Warningf("Recover when send2groupsync message, exception: %+v", exception)
 		}
 	}()
 
@@ -231,7 +231,7 @@ func (ctx *ChannelContext) Send2GroupSync(moduleType string, message model.Messa
 			}
 		}
 		if uninvitedGuests != 0 {
-			klog.Errorf("Send2GroupSync: got some unexpected:%d resp", uninvitedGuests)
+			klog.Errorf("Get some unexpected:%d resp when send2groupsync message", uninvitedGuests)
 			return fmt.Errorf("got some unexpected(%d) resp", uninvitedGuests)
 		}
 		return nil
@@ -269,8 +269,8 @@ func (ctx *ChannelContext) Send2GroupSync(moduleType string, message model.Messa
 				errInfo := fmt.Sprintf("timeout to send message, several %d timeout when send", timeoutCounter)
 				return fmt.Errorf(errInfo)
 			}
-			klog.Error("Send2GroupSync: timeout to send message")
-			return fmt.Errorf("Send2GroupSync: timeout to send message")
+			klog.Error("Timeout to send2groupsync message")
+			return fmt.Errorf("Timeout to send message")
 		}
 	}
 
@@ -310,7 +310,7 @@ func (ctx *ChannelContext) delChannel(module string) {
 	ctx.chsLock.Lock()
 	_, exist := ctx.channels[module]
 	if !exist {
-		klog.Warningf("DelChannel: Failed to get channel, module:%s", module)
+		klog.Warningf("Failed to get channel, module:%s", module)
 		return
 	}
 	delete(ctx.channels, module)
@@ -337,7 +337,7 @@ func (ctx *ChannelContext) getTypeChannel(moduleType string) map[string]chan mod
 		return ctx.typeChannels[moduleType]
 	}
 
-	klog.Warningf("GetTyoeChannel: failed to get type channel, type:%s", moduleType)
+	klog.Warningf("Failed to get type channel, type:%s", moduleType)
 	return nil
 }
 
@@ -351,7 +351,7 @@ func (ctx *ChannelContext) getModuleByChannel(ch chan model.Message) string {
 		}
 	}
 
-	klog.Warning("GetModuleByChannel: Failed to get module by channel")
+	klog.Warning("Failed to get module by channel")
 	return ""
 }
 
@@ -378,5 +378,5 @@ func (ctx *ChannelContext) AddModuleGroup(module, group string) {
 		ctx.addTypeChannel(module, group, channel)
 		return
 	}
-	klog.Warningf("AddModuleGroup: bad module name %s", module)
+	klog.Warningf("Get bad module name %s when addmodulegroup", module)
 }
