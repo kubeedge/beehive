@@ -19,3 +19,5 @@ require (
 	gopkg.in/yaml.v2 v2.2.2
 	k8s.io/klog v1.0.0
 )
+
+replace github.com/apache/servicecomb-kie v0.1.0 => github.com/apache/servicecomb-kie v0.0.0-20190905142319-5ee098c8886f // indirect. TODO: remove this line when servicecomb-kie has a stable release
