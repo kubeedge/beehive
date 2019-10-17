@@ -16,6 +16,7 @@ const StackTraceBufferSize = 1024 * 100
 //Logger is a interface
 type Logger interface {
 	RegisterSink(Sink)
+	SetLogLevel(LogLevel)
 	Session(task string, data ...openlogging.Option) Logger
 	SessionName() string
 	Debug(action string, data ...openlogging.Option)
@@ -103,6 +104,19 @@ func (l *logger) WithData(data openlogging.Tags) Logger {
 		data:      l.baseData(data),
 	}
 }
+
+// SetLogLevel set logger level, current just support file output
+func (l *logger) SetLogLevel(level LogLevel) {
+	for _, itf := range l.sinks {
+		if s, ok := itf.(*writerSink); ok && s.name != "file" {
+			continue
+		}
+		if s, ok := itf.(*ReconfigurableSink); ok {
+			s.SetMinLevel(level)
+		}
+	}
+}
+
 
 // Find the sink need to log
 func (l *logger) activeSinks(loglevel LogLevel) []Sink {
