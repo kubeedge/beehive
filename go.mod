@@ -1,4 +1,4 @@
-module github.com/kubeedge/kubeedge/staging/src/github.com/kubeedge/beehive
+module github.com/kubeedge/beehive
 
 go 1.12
 
@@ -6,7 +6,6 @@ require (
 	github.com/go-chassis/go-archaius v0.20.0
 	github.com/go-chassis/go-chassis v1.7.1 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
-	github.com/kubeedge/beehive v0.0.0-20190809132808-14b9c1bfd040
 	github.com/onsi/ginkgo v1.10.1 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
 	github.com/prometheus/client_model v0.0.0-20190115171406-56726106282f // indirect
