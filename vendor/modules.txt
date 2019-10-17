@@ -24,13 +24,13 @@ github.com/go-mesh/openlogging
 # github.com/gorilla/websocket v1.4.0
 github.com/gorilla/websocket
 # github.com/kubeedge/beehive v0.0.0-20190809132808-14b9c1bfd040
-github.com/kubeedge/beehive/pkg/common/log
 github.com/kubeedge/beehive/pkg/common/util
 github.com/kubeedge/beehive/pkg/core/model
 github.com/kubeedge/beehive/pkg/common/config
 github.com/kubeedge/beehive/pkg/core/context
 github.com/kubeedge/beehive/pkg/core
 github.com/kubeedge/beehive/test/modules
+github.com/kubeedge/beehive/pkg/common/log
 # github.com/satori/go.uuid v1.2.0
 github.com/satori/go.uuid
 # github.com/spf13/cast v1.3.0
@@ -39,3 +39,5 @@ github.com/spf13/cast
 golang.org/x/sys/unix
 # gopkg.in/yaml.v2 v2.2.2
 gopkg.in/yaml.v2
+# k8s.io/klog v1.0.0
+k8s.io/klog
