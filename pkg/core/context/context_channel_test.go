@@ -15,11 +15,11 @@ func TestSendSync(t *testing.T) {
 	messsage.Content = "hello"
 
 	go func() {
-		resp, err := coreContext.SendSync("test_dest", *messsage, 5*time.Second)
+		resp, err := coreContext.SendSync("test_src", *messsage, 5*time.Second)
 		fmt.Printf("resp: %v, error: %v\n", resp, err)
 	}()
 
-	msg, err := coreContext.Receive("test_dest")
+	msg, err := coreContext.Receive("test_src")
 	fmt.Printf("receive msg: %v, error: %v\n", msg, err)
 	resp := msg.NewRespByMessage(&msg, "how are you")
 	coreContext.SendResp(*resp)
