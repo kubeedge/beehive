@@ -1,2 +1,5 @@
 modules:
-    enabled: [destination_module, sourcemodule]
+    enabled:
+    - destinationmodule
+    - sourcemodule
+    - destinationgroupmodule
