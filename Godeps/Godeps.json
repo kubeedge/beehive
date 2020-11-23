@@ -8,7 +8,7 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/go-logr/logr",
-			"Rev": "v0.1.0"
+			"Rev": "v0.2.0"
 		},
 		{
 			"ImportPath": "github.com/satori/go.uuid",
@@ -19,8 +19,8 @@
 			"Rev": "20d25e280405"
 		},
 		{
-			"ImportPath": "k8s.io/klog",
-			"Rev": "v1.0.0"
+			"ImportPath": "k8s.io/klog/v2",
+			"Rev": "v2.2.0"
 		}
 	]
 }
