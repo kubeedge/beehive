@@ -28,7 +28,7 @@ const (
 type Message struct {
 	Header  MessageHeader `json:"header"`
 	Router  MessageRoute  `json:"route,omitempty"`
-	Content interface{}   `json:"content"`
+	Content Content       `json:"content"`
 }
 
 // MessageRoute contains structure of message
@@ -129,7 +129,7 @@ func (msg *Message) GetTimestamp() int64 {
 }
 
 //GetContent returns message content
-func (msg *Message) GetContent() interface{} {
+func (msg *Message) GetContent() Content {
 	return msg.Content
 }
 
@@ -153,7 +153,7 @@ func (msg *Message) BuildHeader(ID, parentID string, timestamp int64) *Message {
 }
 
 //FillBody fills message  content that you want to send
-func (msg *Message) FillBody(content interface{}) *Message {
+func (msg *Message) FillBody(content Content) *Message {
 	msg.Content = content
 	return msg
 }
@@ -187,12 +187,12 @@ func (msg *Message) Clone(message *Message) *Message {
 func (msg *Message) NewRespByMessage(message *Message, content interface{}) *Message {
 	return NewMessage(message.GetID()).SetRoute(message.GetSource(), message.GetGroup()).
 		SetResourceOperation(message.GetResource(), ResponseOperation).
-		FillBody(content)
+		FillBody(NewContent(content))
 }
 
 // NewErrorMessage returns a new error message by a message received
 func NewErrorMessage(message *Message, errContent string) *Message {
 	return NewMessage(message.Header.ParentID).
 		SetResourceOperation(message.Router.Resource, ResponseErrorOperation).
-		FillBody(errContent)
+		FillBody(stringContent(errContent))
 }
