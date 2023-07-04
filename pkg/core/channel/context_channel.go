@@ -258,6 +258,7 @@ func (ctx *Context) SendToGroupSync(moduleType string, message model.Message, ti
 
 	sendTimer := time.NewTimer(time.Until(deadline))
 	ticker := time.NewTicker(TickerTimeoutDefault)
+	defer ticker.Stop()
 	for {
 		// annonChan is full
 		if len(anonChan) == channelNumber {
