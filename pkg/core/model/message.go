@@ -22,6 +22,7 @@ const (
 	ResponseErrorOperation = "error"
 
 	ResourceTypePod                 = "pod"
+	ResourceTypeEvent               = "event"
 	ResourceTypeConfigmap           = "configmap"
 	ResourceTypeServiceAccountToken = "serviceaccounttoken"
 	ResourceTypeSecret              = "secret"
@@ -35,6 +36,10 @@ const (
 	ResourceTypeRuleEndpoint        = "ruleendpoint"
 	ResourceTypeRuleStatus          = "rulestatus"
 	ResourceTypeLease               = "lease"
+	ResourceTypeSaAccess            = "serviceaccountaccess"
+	ResourceTypeCSR                 = "certificatesigningrequest"
+
+	ResourceTypeK8sCA = "k8s/ca.crt"
 )
 
 // Message struct
@@ -209,7 +214,7 @@ func (msg *Message) BuildHeader(ID, parentID string, timestamp int64) *Message {
 	return msg
 }
 
-//FillBody fills message  content that you want to send
+// FillBody fills message  content that you want to send
 func (msg *Message) FillBody(content interface{}) *Message {
 	msg.Content = content
 	return msg
@@ -250,7 +255,7 @@ func (msg *Message) NewRespByMessage(message *Message, content interface{}) *Mes
 
 // NewErrorMessage returns a new error message by a message received
 func NewErrorMessage(message *Message, errContent string) *Message {
-	return NewMessage(message.Header.ParentID).
+	return NewMessage(message.GetID()).
 		SetResourceOperation(message.Router.Resource, ResponseErrorOperation).
 		FillBody(errContent)
 }
