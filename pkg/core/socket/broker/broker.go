@@ -69,6 +69,11 @@ func (broker *RemoteBroker) Receive(conn wrapper.Conn) (model.Message, error) {
 	var message model.Message
 	for {
 		err := conn.SetReadDeadline(time.Time{})
+		if err != nil {
+			klog.Errorf("failed to set read deadline: %+v", err)
+			return model.Message{}, fmt.Errorf("failed to set read deadline: %v", err)
+		}
+
 		err = conn.ReadJSON(&message)
 		if err != nil {
 			klog.Errorf("failed to read, error:%+v", err)
@@ -81,6 +86,10 @@ func (broker *RemoteBroker) Receive(conn wrapper.Conn) (model.Message, error) {
 		}
 
 		err = broker.keeper.SendToKeepChannel(message)
+		if err != nil {
+			klog.Errorf("failed to send to keep channel: %+v", err)
+			return model.Message{}, fmt.Errorf("failed to send to keep channel: %+v", err)
+		}
 	}
 }
 
@@ -101,6 +110,10 @@ func (broker *RemoteBroker) SendSyncInternal(conn wrapper.Conn, message model.Me
 
 	deadline := time.Now().Add(timeout)
 	err = conn.SetReadDeadline(deadline)
+	if err != nil {
+		klog.Errorf("failed to set read deadline: %+v", err)
+		return model.Message{}, fmt.Errorf("failed to set read deadline: %v", err)
+	}
 	var response model.Message
 	err = conn.ReadJSON(&response)
 	if err != nil {
