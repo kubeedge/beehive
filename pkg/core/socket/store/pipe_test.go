@@ -20,8 +20,19 @@ func TestDeleteMissingPipeReleasesLock(t *testing.T) {
 		t.Fatal("Delete blocked while handling a missing pipe")
 	}
 
-	store.Add("module", "pipe")
-	if _, err := store.Get("module"); err != nil {
-		t.Fatalf("Get failed after deleting a missing pipe: %v", err)
+	operationResult := make(chan error, 1)
+	go func() {
+		store.Add("module", "pipe")
+		_, err := store.Get("module")
+		operationResult <- err
+	}()
+
+	select {
+	case err := <-operationResult:
+		if err != nil {
+			t.Fatalf("Get failed after deleting a missing pipe: %v", err)
+		}
+	case <-time.After(time.Second):
+		t.Fatal("pipe store lock remained held after deleting a missing pipe")
 	}
 }
