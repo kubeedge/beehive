@@ -37,6 +37,7 @@ func (s *PipeStore) Delete(module string) {
 	_, exist := s.pipeMap[module]
 	if !exist {
 		klog.Warningf("failed to get pipe, module: %s", module)
+		s.pipeMapLock.Unlock()
 		return
 	}
 	delete(s.pipeMap, module)
